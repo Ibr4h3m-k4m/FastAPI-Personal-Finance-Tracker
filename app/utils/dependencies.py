@@ -5,7 +5,6 @@ from app.database import get_db
 from app.models.user import User
 from .security import decode_access_token
 from app.schemas.token import TokenData
-from app.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
@@ -19,7 +18,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     Raises:
         HTTPException: 401 if token is invalid or user not found """
     # Decode the token
-    payload = decode_access_token(token) # function that we defined in security.py
+    payload = decode_access_token(token)
     
     if payload is None:
         raise HTTPException(
@@ -30,30 +29,33 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     
     # Extract user_id from token payload
     user_id_str = payload.get("sub")
-    print(f"DEBUG 1 - Extracted user_id_str: {user_id_str}")  # ← Add this
-    print(f"DEBUG 1 - Type: {type(user_id_str)}") 
     
     if user_id_str is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials", headers={"WWW-Authenticate": "Bearer"})
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
     
     # Convert user_id to integer
     try:
         user_id = int(user_id_str)
-        print(f"DEBUG 2 - Converted user_id: {user_id}")
     except (ValueError, TypeError):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token format", headers={"WWW-Authenticate": "Bearer"})
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token format",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
     
     # Query database for user using the id extracted from the JWT token 
     user = db.query(User).filter(User.id == user_id).first()
-    print(f"DEBUG 3 - Found user: {user}")  # ← Add this
-    print(f"DEBUG 3 - User id from DB: {user.id if user else 'None'}")  # ← Add this
 
-    
     if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found", headers={"WWW-Authenticate": "Bearer"})
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
         
     return user
 
@@ -75,6 +77,5 @@ def get_current_active_user(current_user: User = Depends(get_current_user)) -> U
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Inactive user"
         )
-    
     
     return current_user

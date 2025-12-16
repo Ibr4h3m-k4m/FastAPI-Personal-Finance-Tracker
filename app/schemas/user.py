@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator , model_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, field_validator , model_validator
 from typing import Optional
 from datetime import datetime
 
@@ -43,5 +43,4 @@ class UserResponse(UserBase):
     is_active: bool
     created_at: datetime
     
-    class Config:
-        from_attributes = True  # Allows SQLAlchemy model conversion
+    model_config = ConfigDict(from_attributes=True)  # Allows SQLAlchemy model conversion

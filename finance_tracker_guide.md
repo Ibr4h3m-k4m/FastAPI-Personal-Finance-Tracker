@@ -80,15 +80,15 @@ finance_tracker/
 ## Version 1: MVP (Authentication & Basic Transactions)
 
 ### Learning Goals
-- FastAPI basics (routes, request/response)
-- Database integration with SQLAlchemy
-- JWT authentication
-- CRUD operations (Create Read Update Delete)
-- Data validation with Pydantic
+- FastAPI basics (routes, request/response) [X]
+- Database integration with SQLAlchemy [X]
+- JWT authentication [X]
+- CRUD operations (Create Read Update Delete) [X]
+- Data validation with Pydantic [X]
 
 ### Database Models
 
-**User Model:**
+**User Model:** [X]
 - id (primary key)
 - email (unique)
 - username (unique)
@@ -141,8 +141,8 @@ finance_tracker/
 
 3. **Database Dependency & Security**
    - Create `get_db()` dependency for database sessions [X]
-   - Create `get_current_user()` dependency for protected routes
-   - Test authentication flow
+   - Create `get_current_user()` dependency for protected routes [X]
+   - Test authentication flow [X]
 
 4. **Transaction CRUD**
    - Create Transaction model and schemas
@@ -155,11 +155,11 @@ finance_tracker/
    - Check automatic API docs at `/docs`
 
 ### Key Concepts to Learn
-- Dependency injection in FastAPI
-- JWT authentication flow
+- Dependency injection in FastAPI [X]
+- JWT authentication flow [X]
 - SQLAlchemy relationships and queries
 - Pydantic validators and serialization
-- HTTP status codes and error handling
+- HTTP status codes and error handling [X]
 - Database sessions and transactions
 
 ---
@@ -174,7 +174,7 @@ finance_tracker/
 
 ### New Database Models
 
-**Category Model:** [X]
+**Category Model:**
 - id (primary key)
 - user_id (foreign key)
 - name

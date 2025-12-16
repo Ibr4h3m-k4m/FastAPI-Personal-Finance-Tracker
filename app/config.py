@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 
 class Settings(BaseSettings):
     # Application
@@ -15,8 +16,10 @@ class Settings(BaseSettings):
     database_url: str  # ← No default, must come from .env
     db_echo: bool = False
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    model_config = ConfigDict(
+        env_file=".env",
+        case_sensitive=False
+    ) # type: ignore
 
-settings = Settings()  # ← Must have ()
+
+settings = Settings()  # type: ignore
