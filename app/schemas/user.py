@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator , model_validator
 from typing import Optional
 from datetime import datetime
 
@@ -29,6 +29,13 @@ class UserLogin(BaseModel):
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     username: Optional[str] = None
+    
+    @model_validator(mode='after')
+    def check_at_least_one_field(self):
+        # At least one must be provided
+        if self.email is None and self.username is None:
+            raise ValueError('Must provide at least one field to update')
+        return self
 
 # For API responses
 class UserResponse(UserBase):

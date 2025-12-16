@@ -12,7 +12,7 @@ A RESTful API for managing personal finances, tracking expenses, setting budgets
 - **SQLAlchemy**: ORM for database operations
 - **Alembic**: Database migrations
 - **Pydantic**: Data validation and settings management
-- **PostgreSQL** or **SQLite**: Database (start with SQLite for simplicity)
+- **PostgreSQL**: Database
 
 ### Security & Auth
 - **python-jose**: JWT token handling
@@ -83,7 +83,7 @@ finance_tracker/
 - FastAPI basics (routes, request/response)
 - Database integration with SQLAlchemy
 - JWT authentication
-- CRUD operations
+- CRUD operations (Create Read Update Delete)
 - Data validation with Pydantic
 
 ### Database Models
@@ -126,21 +126,21 @@ finance_tracker/
 
 ### Implementation Steps
 
-1. **Setup & Configuration**
-   - Install FastAPI and dependencies
-   - Create project structure
-   - Setup database connection in `database.py`
-   - Configure environment variables in `config.py`
+1. **Setup & Configuration** [X]
+   - Install FastAPI and dependencies [X]
+   - Create project structure [X]
+   - Setup database connection in `database.py` [X]
+   - Configure environment variables in `config.py` [X]
 
-2. **User Model & Authentication**
-   - Create User SQLAlchemy model
-   - Create User Pydantic schemas (UserCreate, UserResponse, UserLogin)
-   - Implement password hashing utilities
-   - Implement JWT token generation and validation
-   - Create auth router with register/login endpoints
+2. **User Model & Authentication** [X]
+   - Create User SQLAlchemy model [X]
+   - Create User Pydantic schemas (UserCreate, UserResponse, UserLogin) [X]
+   - Implement password hashing utilities [X]
+   - Implement JWT token generation and validation [X]
+   - Create auth router with register/login endpoints [X]
 
 3. **Database Dependency & Security**
-   - Create `get_db()` dependency for database sessions
+   - Create `get_db()` dependency for database sessions [X]
    - Create `get_current_user()` dependency for protected routes
    - Test authentication flow
 
@@ -174,7 +174,7 @@ finance_tracker/
 
 ### New Database Models
 
-**Category Model:**
+**Category Model:** [X]
 - id (primary key)
 - user_id (foreign key)
 - name
@@ -496,7 +496,7 @@ Your project will impress employers if it demonstrates:
 ## Questions to Research as You Build
 
 - How do you handle database transactions to ensure data consistency?
-- What's the difference between 401 and 403 status codes?
+- What's the difference between 401 and 403 status codes? (401 means you are not authenticated while 403 you are but don't have the premissions or authorizations for that action)
 - Should you soft delete or hard delete records?
 - How do you prevent SQL injection attacks?
 - What's the N+1 query problem and how do you avoid it?
@@ -513,6 +513,3 @@ Your project will impress employers if it demonstrates:
 - Commit frequently with clear messages
 - Don't worry about perfect code - focus on working code
 - Refactoring comes with experience
-- Ask for code reviews (Reddit, Discord communities)
-
-Good luck with your project! Remember, the goal is learning, not perfection.
