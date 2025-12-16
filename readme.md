@@ -309,7 +309,7 @@ psql -U finance_app_user -d finance_tracker -h localhost
 ## 📖 Additional Documentation
 
 For detailed development guide and architecture:
-- [Project Development Guide](./app/finance_tracker_guide.md)
+- [Project Development Guide](./finance_tracker_guide.md)
 
 ## 🤝 Contributing
 
