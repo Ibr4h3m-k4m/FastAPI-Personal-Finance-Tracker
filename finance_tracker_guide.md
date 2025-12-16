@@ -88,7 +88,7 @@ finance_tracker/
 
 ### Database Models
 
-**User Model:** [X]
+**User Model:** 
 - id (primary key)
 - email (unique)
 - username (unique)
@@ -139,7 +139,7 @@ finance_tracker/
    - Implement JWT token generation and validation [X]
    - Create auth router with register/login endpoints [X]
 
-3. **Database Dependency & Security**
+3. **Database Dependency & Security** [X]
    - Create `get_db()` dependency for database sessions [X]
    - Create `get_current_user()` dependency for protected routes [X]
    - Test authentication flow [X]
@@ -418,98 +418,18 @@ finance_tracker/
 - TestClient from FastAPI for endpoint testing
 - Factory Boy or pytest fixtures for test data
 
-### Example Test Structure
-```
-tests/
-├── conftest.py              # Shared fixtures
-├── test_auth.py
-├── test_transactions.py
-├── test_categories.py
-└── test_budgets.py
-```
-
----
 
 ## Deployment Considerations (For Learning)
 
 1. **Environment Variables**
-   - Database URL
-   - Secret key for JWT
+   - Database URL [X]
+   - Secret key for JWT [X]
    - API keys for external services
 
-2. **Docker** (Optional but impressive)
+2. **Docker** 
    - Create Dockerfile for the app
    - Docker Compose for app + database
 
 3. **Simple Deployment Options**
    - Railway.app (free tier)
    - Render.com (free tier)
-   - Heroku (paid but simple)
-
----
-
-## Additional Learning Resources
-
-### Documentation to Read
-- FastAPI official docs (excellent tutorial section)
-- SQLAlchemy ORM tutorial
-- Pydantic documentation
-- JWT.io for understanding tokens
-
-### Key Topics to Study
-- REST API design principles
-- HTTP methods and status codes
-- Database normalization
-- Security best practices (OWASP top 10)
-- API versioning strategies
-
----
-
-## Success Criteria for Portfolio
-
-Your project will impress employers if it demonstrates:
-- Clean, organized code structure
-- Proper separation of concerns (models/schemas/routers/services)
-- Authentication and authorization
-- Database relationships and migrations
-- Error handling and validation
-- API documentation (FastAPI gives you this free!)
-- Basic tests
-- README with setup instructions
-- Git commit history showing iterative development
-
----
-
-## Common Pitfalls to Avoid
-
-1. **Storing passwords in plain text** - Always hash passwords
-2. **No input validation** - Use Pydantic schemas
-3. **Exposing sensitive data** - Don't return passwords in responses
-4. **No error handling** - Use try/except and return proper status codes
-5. **Hardcoded values** - Use environment variables
-6. **No database migrations** - Use Alembic from the start
-7. **Testing with production database** - Use separate test database
-8. **Committing .env files** - Add to .gitignore
-
----
-
-## Questions to Research as You Build
-
-- How do you handle database transactions to ensure data consistency?
-- What's the difference between 401 and 403 status codes? (401 means you are not authenticated while 403 you are but don't have the premissions or authorizations for that action)
-- Should you soft delete or hard delete records?
-- How do you prevent SQL injection attacks?
-- What's the N+1 query problem and how do you avoid it?
-- How do you handle timezone conversions for international users?
-- Should budgets reset automatically or require manual action?
-
----
-
-## Final Tips
-
-- Build one feature completely before moving to the next
-- Test each endpoint in the `/docs` interface as you build
-- Write comments explaining WHY, not WHAT
-- Commit frequently with clear messages
-- Don't worry about perfect code - focus on working code
-- Refactoring comes with experience
