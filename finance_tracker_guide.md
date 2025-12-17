@@ -88,7 +88,7 @@ finance_tracker/
 
 ### Database Models
 
-**User Model:** 
+**User Model:** [X]
 - id (primary key)
 - email (unique)
 - username (unique)
@@ -96,7 +96,7 @@ finance_tracker/
 - created_at
 - is_active
 
-**Transaction Model:**
+**Transaction Model:** [X]
 - id (primary key)
 - user_id (foreign key)
 - amount (decimal)
@@ -104,18 +104,19 @@ finance_tracker/
 - transaction_type (enum: income/expense)
 - date
 - created_at
+- Relationship back to User
 
 ### API Endpoints
 
-**Authentication:**
-- `POST /auth/register` - Create new user account
-- `POST /auth/login` - Login and receive JWT token
-- `POST /auth/refresh` - Refresh access token
+**Authentication:** [X]
+- `POST /auth/register` - Create new user account [X]
+- `POST /auth/login` - Login and receive JWT token [X]
+- `POST /auth/refresh` - Refresh access token [X]
 
-**Users:**
-- `GET /users/me` - Get current user profile
-- `PUT /users/me` - Update user profile
-- `DELETE /users/me` - Delete user account
+**Users:** [X]
+- `GET /users/me` - Get current user profile [X]
+- `PUT /users/me` - Update user profile [X]
+- `DELETE /users/me` - Delete user account [X]
 
 **Transactions:**
 - `POST /transactions` - Create new transaction
@@ -151,8 +152,9 @@ finance_tracker/
    - Implement pagination for listing transactions
 
 5. **Testing & Documentation**
-   - Write basic tests for auth and transactions
-   - Check automatic API docs at `/docs`
+   - Write basic tests for auth [X]
+   - Write basic tests for transactions
+   - Check automatic API docs at `/docs` [X]
 
 ### Key Concepts to Learn
 - Dependency injection in FastAPI [X]
