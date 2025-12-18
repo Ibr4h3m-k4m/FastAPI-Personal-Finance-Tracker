@@ -28,7 +28,7 @@ class Transaction(Base):
         nullable=False
     )
     # Using a lambda for default ensures the time is calculated at insertion
-    transaction_date: Mapped[date] = mapped_column(default=lambda: datetime.now(timezone.utc).date())
+    date: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc).date())
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
 
     # Relationship back to User (if you have a User model)

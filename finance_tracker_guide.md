@@ -77,7 +77,7 @@ finance_tracker/
 
 ---
 
-## Version 1: MVP (Authentication & Basic Transactions)
+## Version 1: MVP (Authentication & Basic Transactions) [X]
 
 ### Learning Goals
 - FastAPI basics (routes, request/response) [X]
@@ -95,6 +95,7 @@ finance_tracker/
 - hashed_password
 - created_at
 - is_active
+- Relationship back to Transactions
 
 **Transaction Model:** [X]
 - id (primary key)
@@ -145,11 +146,11 @@ finance_tracker/
    - Create `get_current_user()` dependency for protected routes [X]
    - Test authentication flow [X]
 
-4. **Transaction CRUD**
-   - Create Transaction model and schemas
-   - Implement transaction router with all CRUD endpoints
-   - Add user_id filtering (users can only see their own transactions)
-   - Implement pagination for listing transactions
+4. **Transaction CRUD** [X]
+   - Create Transaction model and schemas [X]
+   - Implement transaction router with all CRUD endpoints [X]
+   - Add user_id filtering (users can only see their own transactions) [X]
+   - Implement pagination for listing transactions[X]
 
 5. **Testing & Documentation**
    - Write basic tests for auth [X]
@@ -159,10 +160,10 @@ finance_tracker/
 ### Key Concepts to Learn
 - Dependency injection in FastAPI [X]
 - JWT authentication flow [X]
-- SQLAlchemy relationships and queries
-- Pydantic validators and serialization
+- SQLAlchemy relationships and queries [X]
+- Pydantic validators and serialization [X]
 - HTTP status codes and error handling [X]
-- Database sessions and transactions
+- Database sessions and transactions [X]
 
 ---
 
