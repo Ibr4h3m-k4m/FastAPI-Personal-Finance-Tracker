@@ -4,7 +4,7 @@ import httpx
 from app.config import settings
 from app.database import engine, Base
 # Import models to register them with Base
-from app.routers import auth , users , transactions
+from app.routers import auth , users , transactions , categories
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,6 +30,8 @@ app = FastAPI(
 app.include_router(auth.router , prefix=f"{settings.api_v1_str}/auth", tags=["Authentication"] )
 app.include_router(users.users_router , prefix=f"{settings.api_v1_str}/users", tags=["Users"] )
 app.include_router(transactions.router , prefix=f"{settings.api_v1_str}", tags=["Transactions"] )
+app.include_router(categories.router , prefix=f"{settings.api_v1_str}", tags=["Categories"] )
+
 
 @app.get("/")
 async def read_root():

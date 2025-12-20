@@ -177,7 +177,7 @@ finance_tracker/
 
 ### New Database Models
 
-**Category Model:**
+**Category Model:** [X]
 - id (primary key)
 - user_id (foreign key)
 - name
@@ -195,12 +195,12 @@ finance_tracker/
 - end_date (optional)
 - created_at
 
-### Updates to Existing Models
-- Add `category_id` (foreign key, nullable) to Transaction model
+### Updates to Existing Models [X]
+- Add `category_id` (foreign key, nullable) to Transaction model [X]
 
 ### New API Endpoints
 
-**Categories:**
+**Categories:** [X]
 - `POST /categories` - Create category
 - `GET /categories` - List all user categories
 - `PUT /categories/{id}` - Update category
@@ -220,11 +220,11 @@ finance_tracker/
 
 ### Implementation Steps
 
-1. **Create Category System**
-   - Create Category model and schemas
-   - Create category router with CRUD endpoints
-   - Update Transaction model to include category_id
-   - Modify transaction endpoints to accept/return category info
+1. **Create Category System** [X]
+   - Create Category model and schemas [X]
+   - Create category router with CRUD endpoints [X]
+   - Update Transaction model to include category_id [X]
+   - Modify transaction endpoints to accept/return category info [X]
 
 2. **Implement Budgets**
    - Create Budget model and schemas
@@ -238,13 +238,13 @@ finance_tracker/
    - Implement income vs expense comparison
    - Use SQLAlchemy's aggregation functions (func.sum, group_by)
 
-4. **Database Migration**
-   - Learn Alembic basics
-   - Create migration for new tables
-   - Create migration for adding category_id to transactions
+4. **Database Migration** [X]
+   - Learn Alembic basics [X]
+   - Create migration for new tables [X]
+   - Create migration for adding category_id to transactions [X]
 
 ### Key Concepts to Learn
-- Database migrations with Alembic
+- Database migrations with Alembic [X]
 - Complex SQLAlchemy queries (joins, aggregations)
 - Service layer pattern for business logic
 - Handling nullable foreign keys

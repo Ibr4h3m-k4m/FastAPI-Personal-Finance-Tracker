@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models.transaction import Transaction
 from app.models.user import User
 from app.schemas.transaction import  TransactionResponse , TransactionCreate , TransactionUpdate
-
+from app.models.category import Category
 router = APIRouter()
 
 @router.get("/transactions", response_model = list[TransactionResponse], status_code = status.HTTP_200_OK)
@@ -27,12 +27,25 @@ def create_transaction(transaction :TransactionCreate, db:Session = Depends(get_
     check for the fields needed
     and then return the added transaction of the user.
     """
+    # Validate category if provided
+    if transaction.category_id is not None:
+        category = db.query(Category).filter(
+            Category.id == transaction.category_id,
+            Category.user_id == current_user.id
+        ).first()
+        
+        if not category:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Category not found"
+            )
     new_transaction = Transaction(
        user_id = current_user.id,
        amount = transaction.amount,
        description = transaction.description,
        transaction_type = transaction.transaction_type,
-       date = transaction.date
+       date = transaction.date,
+       category_id=transaction.category_id 
     )
     db.add(new_transaction)
     db.commit()
@@ -74,8 +87,22 @@ def update_current_user_transaction_by_id(
         if not transaction:
             raise HTTPException(status_code=404, detail="Transaction not found")
         
+        
         # Get only the fields that were provided
         update_dict = transaction_update.model_dump(exclude_unset=True)
+        # Validate category if being updated
+        if 'category_id' in update_dict and update_dict['category_id'] is not None:
+            category = db.query(Category).filter(
+                Category.id == update_dict['category_id'],
+                Category.user_id == current_user.id
+            ).first()
+            
+            if not category:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Category not found"
+                )
+        
         for key, value in update_dict.items():
             setattr(transaction, key, value)
         db.commit()

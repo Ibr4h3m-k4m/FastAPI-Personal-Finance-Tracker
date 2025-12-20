@@ -13,4 +13,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    # Relationship back to Transactions and cascade delete in case the user deleted its profile 
     transactions = relationship("Transaction", back_populates="user",cascade="all, delete-orphan")
+    # Relationship back to Categories and cascade delete in case the user deleted its profile 
+    categories = relationship("Category", back_populates="user", cascade="all, delete-orphan")

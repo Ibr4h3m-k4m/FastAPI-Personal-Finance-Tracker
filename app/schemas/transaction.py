@@ -1,11 +1,10 @@
-from pydantic import BaseModel, ConfigDict, EmailStr, field_validator , model_validator
+from pydantic import BaseModel, ConfigDict, field_validator , model_validator
 from typing import Optional
 from datetime import datetime, timedelta
 from decimal import Decimal
-from enum import Enum
 from datetime import timezone
 from pydantic import Field
-
+from app.schemas.category import CategoryResponse
 from app.models.transaction import TransactionType
 
 # For Creating a new transaction
@@ -13,6 +12,7 @@ class TransactionCreate(BaseModel):
     amount: Decimal
     description: Optional[str] = Field(None, max_length=500)
     transaction_type: TransactionType
+    category_id: Optional[int] = None
     date: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     @field_validator('amount')
@@ -38,6 +38,7 @@ class TransactionUpdate(BaseModel):
     amount: Optional[Decimal] = None
     description: Optional[str] = Field(None, max_length=500)
     transaction_type: Optional[TransactionType] = None
+    category_id: Optional[int | None] = None
 
     @field_validator('amount')
     @classmethod
@@ -48,8 +49,10 @@ class TransactionUpdate(BaseModel):
 
     @model_validator(mode='after')
     def check_at_least_one_field(self):
-        # At least one must be provided
-        if self.amount is None and self.description is None and self.transaction_type is None:
+        if (self.amount is None and 
+            self.description is None and 
+            self.transaction_type is None and
+            self.category_id is None):  # Add this line
             raise ValueError('Must provide at least one field to update')
         return self
 
@@ -62,5 +65,7 @@ class TransactionResponse(BaseModel):
     transaction_type: TransactionType
     date: datetime 
     created_at: datetime
+    category_id: Optional[int] = None
+    category: Optional[CategoryResponse] = None
     
     model_config = ConfigDict(from_attributes=True)  # Allows SQLAlchemy model conversion

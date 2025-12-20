@@ -17,6 +17,8 @@ class Transaction(Base):
     
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     
+    category_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id", ondelete="SET NULL"), nullable=True)
+    
     amount: Mapped[Decimal] = mapped_column(DECIMAL(10, 2), index=True)
     
     description: Mapped[str | None] = mapped_column(String)
@@ -28,8 +30,10 @@ class Transaction(Base):
         nullable=False
     )
     # Using a lambda for default ensures the time is calculated at insertion
-    date: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc).date())
+    date: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now(timezone.utc))
 
-    # Relationship back to User (if you have a User model)
+    # Relationship back to User 
     user = relationship("User", back_populates="transactions")
+    # Relationship to Category (many transactions -> one category)
+    category = relationship("Category", back_populates="transactions")
