@@ -71,34 +71,43 @@ def test_user_data():
     }
 
 
-@pytest.fixture()
-def authenticated_client(client, test_user_data):
-    """Create authenticated client for testing protected endpoints."""
-    client.post("/api/v1/auth/register", json=test_user_data)
+def create_authenticated_client(user_data, test_db):
+    """Helper to spawn a new client and log in a specific user."""
+    new_client = TestClient(app)
+    # Override DB for this specific client instance
+    app.dependency_overrides[get_db] = lambda: test_db
     
-    response = client.post(
+    # Register and Login
+    new_client.post("/api/v1/auth/register", json=user_data)
+    response = new_client.post(
         "/api/v1/auth/login",
-        data={
-            "username": test_user_data["email"],
-            "password": test_user_data["password"]
-        }
+        data={"username": user_data["email"], "password": user_data["password"]}
     )
     
     token = response.json()["access_token"]
-    client.headers.update({"Authorization": f"Bearer {token}"})
-    
-    return client
+    new_client.headers.update({"Authorization": f"Bearer {token}"})
+    return new_client
 
+@pytest.fixture
+def authenticated_client(test_db, test_user_data):
+    yield create_authenticated_client(test_user_data, test_db)
+
+@pytest.fixture
+def second_authenticated_client(test_db):
+    user2_data = {
+        "email": "other@example.com", 
+        "username": "otheruser", 
+        "password": "password123"
+    }
+    yield create_authenticated_client(user2_data, test_db)
 
 @pytest.fixture()
 def test_transaction_data():
     """"Provide Sample transaction data for creating transactions"""
     return {
         "amount": 100.0,
-        "category": "Groceries",
-        "date": "2024-01-01",
         "description": "Weekly grocery shopping",
-        "type": "expense"
+        "transaction_type": "expense"
     }
     
 @pytest.fixture()
@@ -106,13 +115,13 @@ def create_transaction():
     """"Helper function to create a transaction in the database"""
     def _create_transaction(db, user_id, transaction_data):
         from app.models.transaction import Transaction
+        
         transaction = Transaction(
             user_id=user_id,
             amount=transaction_data["amount"],
-            category=transaction_data["category"],
-            date=transaction_data["date"],
-            description=transaction_data["description"],
-            type=transaction_data["type"]
+            description=transaction_data.get("description"),
+            transaction_type=transaction_data["transaction_type"],
+            date=transaction_data.get("date") 
         )
         db.add(transaction)
         db.commit()
@@ -120,22 +129,3 @@ def create_transaction():
         return transaction
     return _create_transaction
 
-@pytest.fixture()
-def second_authenticated_client(client):
-    """Create a second authenticated client for testing multiple users."""
-    user_data = {
-        "email": "test2@example.com",
-        "username": "testuser2",
-        "password": "testpass456"
-    }
-    client.post("/api/v1/auth/register", json=user_data)    
-    response = client.post(
-        "/api/v1/auth/login",
-        data={
-            "username": user_data["email"],
-            "password": user_data["password"]
-        }
-    )   
-    token = response.json()["access_token"]
-    client.headers.update({"Authorization": f"Bearer {token}"})
-    return client

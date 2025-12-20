@@ -25,6 +25,8 @@ class TransactionCreate(BaseModel):
     @field_validator('date')
     @classmethod
     def validate_date(cls, v):
+        if v.tzinfo is None:
+            v = v.replace(tzinfo=timezone.utc)
         now = datetime.now(timezone.utc)
         max_future = now + timedelta(days=30)
         if v > max_future:
