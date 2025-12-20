@@ -119,12 +119,12 @@ finance_tracker/
 - `PUT /users/me` - Update user profile [X]
 - `DELETE /users/me` - Delete user account [X]
 
-**Transactions:**
-- `POST /transactions` - Create new transaction
-- `GET /transactions` - List all user transactions (with pagination)
-- `GET /transactions/{id}` - Get specific transaction
-- `PUT /transactions/{id}` - Update transaction
-- `DELETE /transactions/{id}` - Delete transaction
+**Transactions:** [X]
+- `POST /transactions` - Create new transaction [X]
+- `GET /transactions` - List all user transactions (with pagination)[X]
+- `GET /transactions/{id}` - Get specific transaction [X]
+- `PUT /transactions/{id}` - Update transaction [X]
+- `DELETE /transactions/{id}` - Delete transaction [X]
 
 ### Implementation Steps
 
@@ -152,9 +152,9 @@ finance_tracker/
    - Add user_id filtering (users can only see their own transactions) [X]
    - Implement pagination for listing transactions[X]
 
-5. **Testing & Documentation**
+5. **Testing & Documentation** [X]
    - Write basic tests for auth [X]
-   - Write basic tests for transactions
+   - Write basic tests for transactions [X]
    - Check automatic API docs at `/docs` [X]
 
 ### Key Concepts to Learn

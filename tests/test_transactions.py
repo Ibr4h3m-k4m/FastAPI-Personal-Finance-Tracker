@@ -106,3 +106,54 @@ def test_list_transactions_user_isolation(authenticated_client, second_authentic
     assert any(tx['id'] == user1_tx_id for tx in data_user1)
     # 2. Check that User 1 DOES NOT see User 2's ID (Strict Isolation)
     assert all(tx['id'] != user2_tx_id for tx in data_user1)
+    
+    
+def test_get_transaction_not_found(authenticated_client):
+    """ Test getting a transaction that does not exist"""
+    response = authenticated_client.get("/api/v1/transactions/9999",)
+    assert response.status_code == 404
+
+
+def test_get_transaction_other_user(authenticated_client, second_authenticated_client, test_transaction_data):
+    """ Test getting a transaction that belongs to another user"""
+    # User 1 creates a transaction
+    res1 = authenticated_client.post("/api/v1/transactions/", json=test_transaction_data)
+    user1_tx_id = res1.json()['id']
+    
+    # User 2 creates a transaction
+    res2 = second_authenticated_client.post("/api/v1/transactions/", json=test_transaction_data)
+    user2_tx_id = res2.json()['id']
+    
+    # User 1 tries to get User 2's transaction
+    response = authenticated_client.get(f"/api/v1/transactions/{user2_tx_id}")
+    assert response.status_code == 404
+
+def test_delete_transaction(authenticated_client, test_transaction_data):
+    """ Test deleting a transaction that belongs to the user"""
+    # Create a transaction
+    res1 = authenticated_client.post("/api/v1/transactions/", json=test_transaction_data)
+    user1_tx_id = res1.json()['id']
+    
+    # Delete the transaction
+    response = authenticated_client.delete(f"/api/v1/transactions/{user1_tx_id}")
+    assert response.status_code == 200
+    
+    # Verify it's deleted
+    get_response = authenticated_client.get(f"/api/v1/transactions/{user1_tx_id}")
+    assert get_response.status_code == 404 
+
+def test_delete_transaction_not_found(authenticated_client):
+    """ Test deleting a transaction that does not exist"""
+    response = authenticated_client.delete("/api/v1/transactions/9999")
+    assert response.status_code == 404
+
+def test_delete_transaction_other_user(authenticated_client, second_authenticated_client, test_transaction_data):
+    """ Test deletting a transaction that belongs to another user"""
+    # User 1 creates a transaction
+    res1 = authenticated_client.post("/api/v1/transactions/", json=test_transaction_data)
+    user1_tx_id = res1.json()['id']
+    
+    # User 2 tries to delete User 1's transaction
+    response = second_authenticated_client.delete(f"/api/v1/transactions/{user1_tx_id}")
+    assert response.status_code == 404  
+    
